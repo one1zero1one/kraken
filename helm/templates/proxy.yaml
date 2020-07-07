@@ -31,7 +31,7 @@ spec:
         command:
         - /usr/bin/kraken-proxy
         - --config={{ .Values.proxy.config }}
-        - --port=80
+        - --port={{ .Values.kind.alternateProxyInternalPort | default "80" }}
         volumeMounts:
         - name: config
           mountPath: /etc/config
@@ -54,4 +54,23 @@ spec:
   ports:
   - protocol: TCP
     port: 80
-    targetPort: 80
+    targetPort: {{ .Values.kind.alternateProxyInternalPort | default "80" }}
+
+{{ if .Values.kind.enabled }}  
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kraken-proxy-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 0m
+spec:
+  rules:
+  - host: {{ .Values.kind.ingressHostPrefix }}-proxy.kind
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: kraken-proxy
+          servicePort: 80
+{{ end }}  
