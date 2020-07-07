@@ -81,3 +81,6 @@ testfs:
 kind:
   enabled: true
   ingressHostPrefix: kind-1
+  remotes:
+    enabled: true
+    addr: kind-2-build-index.kind:81

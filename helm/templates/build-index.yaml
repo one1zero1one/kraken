@@ -55,3 +55,22 @@ spec:
   - protocol: TCP
     port: 80
     targetPort: 80
+
+{{ if .Values.kind.enabled }}  
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kraken-build-index-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 0m
+spec:
+  rules:
+  - host: {{ .Values.kind.ingressHostPrefix }}-build-index.kind
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: kraken-build-index
+          servicePort: 80
+{{ end }}  

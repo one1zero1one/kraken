@@ -13,7 +13,11 @@ backends:
         name_path: docker_tag
 {{ end }}
 
-remotes: {}
+{{ if .Values.kind.remotes.enabled }}
+remotes:
+  "{{ .Values.kind.remotes.addr }}":
+  - .* 
+{{ end }}
 
 tag_replication:
   retry_interval: 100ms

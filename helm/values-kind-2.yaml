@@ -83,3 +83,5 @@ kind:
   enabled: true
   ingressHostPrefix: kind-2
   alternateProxyInternalPort: 81
+  remotes:
+    enabled: false
