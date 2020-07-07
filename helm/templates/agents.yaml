@@ -62,21 +62,4 @@ spec:
     port: 80
     targetPort: 8081
     nodePort: {{ .Values.kraken.registry_port }}
-  externalTrafficPolicy: Local
-
-{{ if .Values.kind.enabled }}  
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: kraken-agent-ingress
-spec:
-  rules:
-  - host: {{ .Values.kind.ingressHostPrefix }}-agent.kind
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: kraken-agent
-          servicePort: 80
-{{ end }}          
+  externalTrafficPolicy: Local      
